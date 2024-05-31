@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">UFSCarona 2</string>
+    <string name="app_name">UFSCarona 2 </string>
+    <string name="default_web_client_id">856405875390-2pm2jusu2rvdd9qq2nj924j5lfhm871j.apps.googleusercontent.com </string>
+    <string name="logingoogle">LoginGoogle</string>
+
+
 </resources>
