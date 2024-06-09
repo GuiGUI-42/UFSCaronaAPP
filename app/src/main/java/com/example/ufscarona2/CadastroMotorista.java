@@ -48,7 +48,7 @@ public class CadastroMotorista extends AppCompatActivity {
                 editor.putString("Placa do Carro", placa);
                 editor.putString("Capacidade de Passageiros", Capacidade);
                 editor.apply();
-                Intent intent = new Intent(CadastroMotorista.this,MainActivity.class);
+                Intent intent = new Intent(CadastroMotorista.this,MainMotorista.class);
                 startActivity(intent);
 
             }

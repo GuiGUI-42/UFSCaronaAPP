@@ -26,7 +26,7 @@ public class MainMotorista extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMotorista.this,MainActivity.class);
+                Intent intent = new Intent(MainMotorista.this,com.example.mapsufscarona.maps.class);
                 startActivity(intent);
 
             }
