@@ -8,75 +8,45 @@
     tools:context=".selecao">
 
 
-    <ImageView
-        android:id="@+id/iconeEmail"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="4dp"
-        android:src="@drawable/baseline_email_24"
+
+
+    <View
+        android:id="@id/container"
+        style="@style/ContainerComponents"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="452dp" />
-
-    <ImageView
-        android:id="@+id/iconeMatricula"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:src="@drawable/outline_build_24"
-        app:layout_constraintStart_toStartOf="parent"
-
-
-        app:layout_constraintTop_toBottomOf="@id/iconeEmail" />
-
-    <TextView
-        android:id="@+id/textUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SeuNome da Silva"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-
-        app:layout_constraintBottom_toTopOf="@+id/textEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoufsc"
-        app:layout_constraintVertical_bias="0.765" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCadastro"
+        />
 
-    <TextView
+
+    <EditText
         android:id="@+id/textUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="18205199"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnMotorista"
+        style="@style/Edit_Text"
+        android:hint="Nome"
+        android:drawableRight="@drawable/baseline_co_present_24"
+        app:layout_constraintEnd_toEndOf="@id/container"
+        app:layout_constraintStart_toStartOf="@id/container"
+        app:layout_constraintTop_toTopOf="@id/container"
+    />
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.33"
-        app:layout_constraintStart_toEndOf="@id/iconeMatricula"
-        app:layout_constraintTop_toBottomOf="@+id/textEmail"
-        app:layout_constraintVertical_bias="0.489"
-        tools:ignore="DuplicateIds" />
+    <EditText
+        android:id="@+id/textMatricula"
+        style="@style/Edit_Text"
+        android:hint="Matricula UFSC"
+        android:drawableRight="@drawable/outline_build_24"
+        app:layout_constraintEnd_toEndOf="@id/container"
+        app:layout_constraintStart_toStartOf="@id/container"
+        app:layout_constraintTop_toBottomOf="@id/textEmail" />
 
-    <TextView
+    <EditText
         android:id="@+id/textEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="236dp"
-        android:text="guigobleite@gmail.com"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.397"
-        app:layout_constraintStart_toEndOf="@+id/iconeEmail"
-        app:layout_constraintTop_toBottomOf="@+id/logoufsc" />
+        style="@style/Edit_Text"
+        android:hint="Email"
+        android:drawableRight="@drawable/baseline_email_24"
+        app:layout_constraintEnd_toEndOf="@id/container"
+        app:layout_constraintStart_toStartOf="@id/container"
+        app:layout_constraintTop_toBottomOf="@id/textUser"
+        />
 
     <ImageView
         android:id="@+id/logoufsc"
@@ -86,26 +56,30 @@
         tools:layout_editor_absoluteX="123dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    <Button
-        android:id="@+id/btnMotorista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="612dp"
-        android:text="Possuo Carro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCaroneiro"
-        android:layout_width="wrap_content"
+        style="@style/Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Não possuo carro"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textMatricula"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMotorista"
-        app:layout_constraintVertical_bias="0.906" />
+        tools:layout_editor_absoluteX="64dp"
+    />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMotorista"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Possuo carro"
+        app:layout_constraintTop_toBottomOf="@id/btnCaroneiro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="64dp"
+        />
 
     <TextView
         android:id="@+id/txtCadastro"

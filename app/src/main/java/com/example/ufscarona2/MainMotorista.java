@@ -15,12 +15,12 @@ public class MainMotorista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_motorista);
-        View Btn1 = findViewById(R.id.btnOfCarona);
-        View Btn2 = findViewById(R.id.btnBcCarona);
-        View Btn3 = findViewById(R.id.SwitchMotorista);
-        View Btn4 = findViewById(R.id.btnPerfil);
-        View Btn5 = findViewById(R.id.btnLogOut);
-        View Btn6 = findViewById(R.id.btnSobre);
+        Button Btn1 = findViewById(R.id.btnOfCarona);
+        Button Btn2 = findViewById(R.id.btnBcCarona);
+        Button Btn3 = findViewById(R.id.SwitchMotorista);
+        Button Btn4 = findViewById(R.id.btnPerfil);
+        Button Btn5 = findViewById(R.id.btnLogOut);
+        Button Btn6 = findViewById(R.id.btnSobre);
 
         Btn1.setOnClickListener( new View.OnClickListener(){
 
@@ -71,7 +71,7 @@ public class MainMotorista extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMotorista.this, perfil.class);
+                Intent intent = new Intent(MainMotorista.this, Sobre.class);
                 startActivity(intent);
 
             }

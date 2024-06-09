@@ -8,72 +8,57 @@
 
 
     <ImageView
-        android:id="@+id/iconeEmail"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/baseline_email_24"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="381dp" />
-
-    <ImageView
         android:id="@+id/iconeMatricula"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/outline_build_24"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
-
-        app:layout_constraintTop_toBottomOf="@id/iconeEmail" />
-
-    <EditText
+    <TextView
         android:id="@+id/textUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Nome"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/textEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoufsc"
         app:layout_constraintVertical_bias="0.512" />
 
-    <EditText
+    <TextView
         android:id="@+id/textMatricula"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:hint="Matricula"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/LogoOut"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintHorizontal_bias="0.33"
         app:layout_constraintStart_toEndOf="@id/iconeMatricula"
         app:layout_constraintTop_toBottomOf="@+id/textEmail"
         app:layout_constraintVertical_bias="0.522"
         tools:ignore="DuplicateIds" />
 
-    <EditText
+    <TextView
         android:id="@+id/textEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Email"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/LogoOut"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.313"
-        app:layout_constraintStart_toEndOf="@+id/iconeEmail"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoufsc"
         app:layout_constraintVertical_bias="0.512" />
 
@@ -91,8 +76,17 @@
         android:layout_width="139dp"
         android:layout_height="196dp"
         app:srcCompat="@drawable/logoufsc"
-        tools:layout_editor_absoluteX="123dp"
-        tools:layout_editor_absoluteY="32dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="154dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="84dp"
+        app:layout_constraintStart_toEndOf="@+id/logoufsc"
+        app:srcCompat="@drawable/logo"
+        tools:layout_editor_absoluteY="85dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
