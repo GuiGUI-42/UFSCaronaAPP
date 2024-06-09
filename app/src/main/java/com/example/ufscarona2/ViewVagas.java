@@ -1,24 +1,64 @@
 package com.example.ufscarona2;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class ViewVagas extends AppCompatActivity {
+    int x = 0;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_view_vagas);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        View parkingSpaceView = findViewById(R.id.vaga1);
+        Button att = findViewById(R.id.att);
+
+        // Initialize SharedPreferences
+        prefs = getSharedPreferences("my_prefs", MODE_PRIVATE);
+
+        // Retrieve the value of x from SharedPreferences
+        x = prefs.getInt("x", 0);
+
+        // Update the parking space view based on the value of x
+        updateParkingSpaceView(parkingSpaceView, x);
+
+        att.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Update the value of x
+                if(x==1){
+                    x=0;
+                }
+                else{
+                    x=1;
+                }
+
+
+                // Store the value of x in SharedPreferences
+                prefs.edit().putInt("x", x).apply();
+
+                // Update the parking space view based on the new value of x
+                updateParkingSpaceView(parkingSpaceView, x);
+            }
         });
+    }
+
+    private void updateParkingSpaceView(View parkingSpaceView, int x) {
+        if (x == 1) {
+            parkingSpaceView.setBackgroundResource(R.color.parking_space_occupied);
+        } else if (x == 0) {
+
+            parkingSpaceView.setBackgroundResource(R.color.parking_space_available);
+
+        } else {
+            parkingSpaceView.setBackgroundResource(R.color.parking_space_unknown);
+        }
     }
 }

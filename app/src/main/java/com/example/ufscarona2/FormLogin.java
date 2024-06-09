@@ -28,19 +28,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 public class FormLogin extends AppCompatActivity {
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences pref;
     Button googleAuth;
     FirebaseAuth Auth;
     FirebaseDatabase database;
     GoogleSignInClient mGoogleSignInClient;
 
     int RC_SIGN_IN=20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_form_login);
-        sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        pref = getSharedPreferences("MyPref", MODE_PRIVATE);
+        Button Btn1 = findViewById(R.id.btnLogin);
 
 
         googleAuth = findViewById(R.id.btnGoogleAuth);
@@ -53,13 +55,33 @@ public class FormLogin extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+
+        Btn1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int storedValue = pref.getInt("myInt", -1);
+                if (storedValue==10){
+                    Intent intent = new Intent(FormLogin.this, MainMotorista.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
         googleAuth.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                int storedValue = pref.getInt("myInt", -1);
+                if (storedValue==10){
+                    Intent intent = new Intent(FormLogin.this, MainMotorista.class);
+                    startActivity(intent);
+                }
+                else {
 
                     googleSignIn();
 
+                }
             }
         });
     }
@@ -98,8 +120,6 @@ public class FormLogin extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
-
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = Auth.getCurrentUser();
 

@@ -8,6 +8,9 @@
     <color name="Aquamarine">#7FFFD4</color>
     <color name="MediumAquamarine">#66CDAA</color>
     <color name="CadetBlue">#5F9EA0</color>
+    <color name="parking_space_occupied">#FF0000</color>
+    <color name="parking_space_available">#00FF00</color>
+    <color name="parking_space_unknown">#CCCCCC</color>
 
 
 

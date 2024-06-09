@@ -23,8 +23,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/textEmail"
+        android:text="Proposito"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoufsc"
@@ -35,32 +34,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginBottom="200dp"
+        android:text="Desenvolvedores"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/LogoOut"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.33"
+        app:layout_constraintHorizontal_bias="0.243"
         app:layout_constraintStart_toEndOf="@id/iconeMatricula"
-        app:layout_constraintTop_toBottomOf="@+id/textEmail"
         app:layout_constraintVertical_bias="0.522"
         tools:ignore="DuplicateIds" />
 
+
     <TextView
-        android:id="@+id/textEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Como os dados são tratados"
         android:textColor="@color/black"
         android:textSize="20sp"
+
         android:textStyle="bold"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/LogoOut"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.313"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoufsc"
-        app:layout_constraintVertical_bias="0.512" />
+        app:layout_constraintTop_toBottomOf="@+id/textMatricula"
+        tools:layout_editor_absoluteX="180dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         style="@style/Button"
@@ -87,6 +84,22 @@
         app:layout_constraintStart_toEndOf="@+id/logoufsc"
         app:srcCompat="@drawable/logo"
         tools:layout_editor_absoluteY="85dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Curso"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="408dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Versão do App"
+        tools:layout_editor_absoluteX="179dp"
+        tools:layout_editor_absoluteY="476dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

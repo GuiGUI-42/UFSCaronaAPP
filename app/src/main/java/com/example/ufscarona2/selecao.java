@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 public class selecao extends AppCompatActivity {
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences pref;
     Button btnMotorista;
     Button btnCaroneiro;
 
@@ -20,12 +20,15 @@ public class selecao extends AppCompatActivity {
         setContentView(R.layout.activity_selecao);
         View Btn1 = findViewById(R.id.btnMotorista);
         View Btn2 = findViewById(R.id.btnCaroneiro);
+        pref = getSharedPreferences("MyPref", MODE_PRIVATE);
+
         Btn1.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
-
+                int valor = 10; // valor a ser guardado
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt("myInt", valor);
+                editor.apply();
                 Intent intent = new Intent(selecao.this, CadastroMotorista.class);
                 startActivity(intent);
 
@@ -34,11 +37,6 @@ public class selecao extends AppCompatActivity {
         Btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE);
-                int valor = 1;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("chave", valor);
-                editor.apply();
                 Intent intent = new Intent(selecao.this, MainCaroneiro.class);
                 startActivity(intent);
             }
