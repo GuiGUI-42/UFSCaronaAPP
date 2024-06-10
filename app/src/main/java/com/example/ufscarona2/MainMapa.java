@@ -1,6 +1,11 @@
 package com.example.ufscarona2;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -20,31 +25,100 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_mapa);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(
+                this,
+                R.array.planets_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter1);
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedString = parent.getItemAtPosition(position).toString();
+                updateMapPoint1(selectedString);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Não há nada selecionado
+            }
+        });
+
+        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+                this,
+                R.array.destinos,
+                android.R.layout.simple_spinner_item
+        );
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter2);
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedString = parent.getItemAtPosition(position).toString();
+                updateMapPoint2(selectedString);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Não há nada selecionado
+            }
+        });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Adicione aqui o código para customizar o mapa.
-        LatLng point1 = new LatLng(-26.9209275, -49.1029942);
-        LatLng point2 = new LatLng(-26.913423,-49.0880496);
+    }
 
+    private void updateMapPoint1(String selectedPlanet) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        sharedPreferences.edit().putString("selected_planet1", selectedPlanet).apply();
+
+        float lat, lgn;
+        if (selectedPlanet.equals("UFSC")) {
+            lat = (float) -26.9209275;
+            lgn = (float) -49.1029942;
+        } else {
+            lat = (float) -27.9209275;
+            lgn = (float) -50.1029942;
+        }
+
+        LatLng point1 = new LatLng(lat, lgn);
+        mMap.clear();
         mMap.addMarker(new MarkerOptions()
                 .position(point1)
                 .title("Ponto 1")
                 .snippet("UFSC"));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point1, 14));
+    }
 
+    private void updateMapPoint2(String selectedPlanet) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        sharedPreferences.edit().putString("selected_planet2", selectedPlanet).apply();
+
+        float lat, lgn;
+        if (selectedPlanet.equals("UFSC")) {
+            lat = (float) -26.9209275;
+            lgn = (float) -49.1029942;
+        } else {
+            lat = (float) -27.9209275;
+            lgn = (float) -50.1029942;
+        }
+
+        LatLng point2 = new LatLng(lat, lgn);
         mMap.addMarker(new MarkerOptions()
                 .position(point2)
                 .title("Ponto 2")
-                .snippet("X"));
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point1, 14));
-
+                .snippet("UFSC"));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point2, 14));
     }
-
-
 }
