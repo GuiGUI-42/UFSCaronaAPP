@@ -1,51 +1,66 @@
 package com.example.ufscarona2;
 
+import android.os.Bundle;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+public class ApiActvity extends AppCompatActivity {
+    private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:3000/api/caronas";
 
-public class ApiActvity {
-    private static final String URL_API = "http://ufscarona.j.p.carvalho.vms.ufsc.br:3000/api/caronas";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-    public void logPrimeiraCarona() throws IOException {
-        OkHttpClient client = new OkHttpClient();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(API_URL);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.connect();
 
-        Request request = new Request.Builder()
-                .url(URL_API)
-                .build();
+                    int statusCode = connection.getResponseCode();
+                    if (statusCode == 200) {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder response = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine())!= null) {
+                            response.append(line);
+                        }
+                        reader.close();
 
-        Response response = client.newCall(request).execute();
+                        Log.d("API", "Resposta da API: " + response.toString());
 
-        if (!response.isSuccessful()) {
-            throw new IOException("Erro ao realizar requisição: " + response);
-        }
-
-        String responseBody = response.body().string();
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = new JSONArray(responseBody);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (jsonArray.length() > 0) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = jsonArray.getJSONObject(0);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+                        try {
+                            JSONArray dataArray = new JSONArray(response.toString());
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject obj = dataArray.getJSONObject(i);
+                                String data = obj.getString("idCarona");
+                                Log.d("API", "Carona: " + data);
+                            }
+                        } catch (JSONException e) {
+                            Log.e("API", "Erro ao carregar dados: " + e.getMessage());
+                        }
+                    } else {
+                        Log.e("API", "Erro ao carregar dados: " + statusCode);
+                    }
+                } catch (IOException e) {
+                    Log.e("ERRO API", "Erro ao carregar dados: " + e.getMessage());
+                }
             }
-            Log.d("API", "Primeira carona: " + jsonObject.toString());
-        } else {
-            Log.d("API", "Nenhuma carona encontrada");
-        }
+        }).start();
     }
 }
