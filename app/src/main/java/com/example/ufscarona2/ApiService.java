@@ -55,7 +55,7 @@ public class ApiService {
                         try {
                             JSONArray dataArray = new JSONArray(response.toString());
                             caronas.clear(); // Limpar a lista de caronas
-                            for (int i = 0; i < 5; i++) {
+                            for (int i = 0; i < 10; i++) {
                                 JSONObject obj = dataArray.getJSONObject(i);
                                 String data = obj.getString("fk_Origem");
                                 Log.d("API", "Caronas: " + data);

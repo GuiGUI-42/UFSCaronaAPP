@@ -32,7 +32,7 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        prefs = getSharedPreferences("caronas_prefs", MODE_PRIVATE);
+        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
 
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
 
