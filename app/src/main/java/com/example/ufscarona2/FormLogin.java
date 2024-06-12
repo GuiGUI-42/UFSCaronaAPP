@@ -3,6 +3,7 @@ package com.example.ufscarona2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -72,16 +73,12 @@ public class FormLogin extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                int storedValue = pref.getInt("myInt", -1);
-                if (storedValue==10){
-                    Intent intent = new Intent(FormLogin.this, MainMotorista.class);
-                    startActivity(intent);
-                }
-                else {
+
+
 
                     googleSignIn();
 
-                }
+
             }
         });
     }
@@ -122,11 +119,13 @@ public class FormLogin extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = Auth.getCurrentUser();
-
+                                    String userEmail = user.getEmail(); // Get the user's email
+                                    Log.d("User Email", "Email: " + userEmail);
                                     HashMap<String, Object> map = new HashMap<>();
                                     map.put("id", user.getUid());
                                     map.put("name", user.getDisplayName());
                                     map.put("profile", user.getPhotoUrl().toString());
+                                    map.put("email", userEmail);
 
                                     database.getReference().child("users").child(user.getUid()).setValue(map);
 
