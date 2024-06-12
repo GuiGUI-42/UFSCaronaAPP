@@ -30,11 +30,13 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(
-                this,
-                R.array.planets_array,
-                android.R.layout.simple_spinner_item
-        );
+        // Recuperar o array de strings das caronas
+        SharedPreferences prefs = getSharedPreferences("caronas_prefs", MODE_PRIVATE);
+        String caronasString = prefs.getString("caronas_array", "");
+        String[] caronasArray = caronasString.split(",");
+
+        // Criar um ArrayAdapter com o array de strings
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, caronasArray);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter1);
 
@@ -81,7 +83,7 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
 
     private void updateMapPoint1(String selectedPlanet) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        sharedPreferences.edit().putString("selected_planet1", selectedPlanet).apply();
+        sharedPreferences.edit().putString("caronas_array", selectedPlanet).apply();
 
         float lat, lgn;
         if (selectedPlanet.equals("UFSC")) {

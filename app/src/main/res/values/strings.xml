@@ -17,4 +17,9 @@
         <item>Z</item>
     </string-array>
 
+        <string-array name="caronas_array">
+            <!-- os dados serão adicionados aqui -->
+        </string-array>
+
+
 </resources>

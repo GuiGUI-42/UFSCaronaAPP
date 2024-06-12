@@ -1,9 +1,7 @@
 package com.example.ufscarona2;
 
-import android.os.Bundle;
+import android.content.SharedPreferences;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,14 +13,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ApiActvity extends AppCompatActivity {
+public class ApiService {
     private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:3000/api/caronas";
+    private SharedPreferences prefs;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public interface ApiCallback {
+        void onApiSuccess(String caronasString);
+        void onApiError(String error);
+    }
 
+    public void executeApi(ApiCallback callback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -37,7 +37,7 @@ public class ApiActvity extends AppCompatActivity {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                         StringBuilder response = new StringBuilder();
                         String line;
-                        while ((line = reader.readLine())!= null) {
+                        while ((line = reader.readLine()) != null) {
                             response.append(line);
                         }
                         reader.close();
@@ -46,19 +46,24 @@ public class ApiActvity extends AppCompatActivity {
 
                         try {
                             JSONArray dataArray = new JSONArray(response.toString());
-                            for (int i = 0; i < dataArray.length(); i++) {
+                            String caronasString = "";
+                            for (int i = 0; i < 10; i++) {
                                 JSONObject obj = dataArray.getJSONObject(i);
-                                String data = obj.getString("idCarona");
-                                Log.d("API", "Carona: " + data);
+                                String data = obj.getString("fk_Origem");
+                                Log.d("API", "Caronas: " + data);
+                                caronasString += data + ","; // adicionar os dados à string
                             }
+                            caronasString = caronasString.substring(0, caronasString.length() - 1); // remover a vírgula extra no final
+                            Log.d("API", "Caronas string: " + caronasString);
+                            callback.onApiSuccess(caronasString);
                         } catch (JSONException e) {
-                            Log.e("API", "Erro ao carregar dados: " + e.getMessage());
+                            callback.onApiError(e.getMessage());
                         }
                     } else {
-                        Log.e("API", "Erro ao carregar dados: " + statusCode);
+                        callback.onApiError("Erro ao carregar dados: " + statusCode);
                     }
                 } catch (IOException e) {
-                    Log.e("ERRO API", "Erro ao carregar dados: " + e.getMessage());
+                    callback.onApiError("Erro ao carregar dados: " + e.getMessage());
                 }
             }
         }).start();
