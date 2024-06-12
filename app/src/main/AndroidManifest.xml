@@ -39,7 +39,7 @@
             android:exported="false" />
         <activity
             android:name=".MainMotorista"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".CadastroMotorista"
             android:exported="false" />
@@ -50,7 +50,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ApiActvity"
+            android:name=".ApiService"
             android:exported="true" />
         <activity
             android:name=".FormLogin"

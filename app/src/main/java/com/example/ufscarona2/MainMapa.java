@@ -2,10 +2,12 @@ package com.example.ufscarona2;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -20,6 +22,7 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,29 +32,34 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        prefs = getSharedPreferences("caronas_prefs", MODE_PRIVATE);
+
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-        // Recuperar o array de strings das caronas
-        SharedPreferences prefs = getSharedPreferences("caronas_prefs", MODE_PRIVATE);
+
         String caronasString = prefs.getString("caronas_array", "");
-        String[] caronasArray = caronasString.split(",");
+        Log.d("SharedPreferences", "Caronas string: " + caronasString); // Adicionei essa linha para imprimir a string no logcat
 
-        // Criar um ArrayAdapter com o array de strings
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, caronasArray);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter1);
+        if (caronasString.isEmpty()) {
+            Toast.makeText(this, "Erro: caronasString é vazia", Toast.LENGTH_SHORT).show();
+        } else {
+            String[] caronasArray = caronasString.split(",");
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, caronasArray);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner1.setAdapter(adapter1);
 
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedString = parent.getItemAtPosition(position).toString();
-                updateMapPoint1(selectedString);
-            }
+            spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedString = parent.getItemAtPosition(position).toString();
+                    updateMapPoint1(selectedString);
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Não há nada selecionado
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // Não há nada selecionado
+                }
+            });
+        }
 
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
@@ -82,8 +90,7 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void updateMapPoint1(String selectedPlanet) {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        sharedPreferences.edit().putString("caronas_array", selectedPlanet).apply();
+        prefs.edit().putString("caronas_array", selectedPlanet).apply(); // Removi a criação de uma nova instância de SharedPreferences
 
         float lat, lgn;
         if (selectedPlanet.equals("UFSC")) {
@@ -104,8 +111,7 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void updateMapPoint2(String selectedPlanet) {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        sharedPreferences.edit().putString("selected_planet2", selectedPlanet).apply();
+        prefs.edit().putString("selected_planet2", selectedPlanet).apply(); // Removi a criação de uma nova instância de SharedPreferences
 
         float lat, lgn;
         if (selectedPlanet.equals("UFSC")) {

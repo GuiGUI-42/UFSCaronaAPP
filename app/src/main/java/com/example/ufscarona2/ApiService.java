@@ -1,5 +1,6 @@
 package com.example.ufscarona2;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -12,14 +13,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApiService {
     private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:3000/api/caronas";
     private SharedPreferences prefs;
+    private List<String> caronas = new ArrayList<>();
 
     public interface ApiCallback {
         void onApiSuccess(String caronasString);
         void onApiError(String error);
+    }
+
+    public ApiService(Context context) {
+        this.prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
     }
 
     public void executeApi(ApiCallback callback) {
@@ -37,7 +45,7 @@ public class ApiService {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                         StringBuilder response = new StringBuilder();
                         String line;
-                        while ((line = reader.readLine()) != null) {
+                        while ((line = reader.readLine())!= null) {
                             response.append(line);
                         }
                         reader.close();
@@ -46,16 +54,22 @@ public class ApiService {
 
                         try {
                             JSONArray dataArray = new JSONArray(response.toString());
-                            String caronasString = "";
-                            for (int i = 0; i < 10; i++) {
+                            caronas.clear(); // Limpar a lista de caronas
+                            for (int i = 0; i < 5; i++) {
                                 JSONObject obj = dataArray.getJSONObject(i);
                                 String data = obj.getString("fk_Origem");
                                 Log.d("API", "Caronas: " + data);
-                                caronasString += data + ","; // adicionar os dados à string
+                                caronas.add(data); // Adicionar os dados à lista de caronas
                             }
-                            caronasString = caronasString.substring(0, caronasString.length() - 1); // remover a vírgula extra no final
+                            String caronasString = "";
+                            for (String carona : caronas) {
+                                caronasString += carona + ","; // Converter a lista de caronas para uma string
+                            }
+                            caronasString = caronasString.substring(0, caronasString.length() - 1); // Remover a vírgula extra no final
                             Log.d("API", "Caronas string: " + caronasString);
                             callback.onApiSuccess(caronasString);
+
+                            prefs.edit().putString("caronas_array", caronasString).apply();
                         } catch (JSONException e) {
                             callback.onApiError(e.getMessage());
                         }
@@ -67,5 +81,9 @@ public class ApiService {
                 }
             }
         }).start();
+    }
+
+    public List<String> getCaronas() {
+        return caronas;
     }
 }
