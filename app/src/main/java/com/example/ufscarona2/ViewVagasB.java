@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ViewVagas extends AppCompatActivity {
+public class ViewVagasB extends AppCompatActivity {
     int x = 0;
     private SharedPreferences prefs;
 
@@ -17,13 +17,12 @@ public class ViewVagas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_view_vagas);
+        setContentView(R.layout.activity_view_vagas_b);
         View parkingSpaceView = findViewById(R.id.vaga1);
         Button att = findViewById(R.id.att);
-        Button next= findViewById(R.id.btn_nextB);
+        Button next= findViewById(R.id.btn_nextC);
+        Button back = findViewById(R.id.btn_backA);
         Button sair = findViewById(R.id.sair);
-
-
         // Initialize SharedPreferences
         prefs = getSharedPreferences("my_prefs", MODE_PRIVATE);
 
@@ -55,17 +54,21 @@ public class ViewVagas extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewVagas.this,ViewVagasB.class);
+                Intent intent = new Intent(ViewVagasB.this,ViewVagasC.class);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewVagasB.this,ViewVagas.class);
             }
         });
         sair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewVagas.this,MainMotorista.class);
+                Intent intent = new Intent(ViewVagasB.this,MainMotorista.class);
             }
         });
-
-
     }
 
     private void updateParkingSpaceView(View parkingSpaceView, int x) {
