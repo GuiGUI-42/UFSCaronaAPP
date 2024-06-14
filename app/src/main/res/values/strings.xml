@@ -30,6 +30,8 @@
     <string name="placa_do_carro">Placa do Carro</string>
     <string name="capacidade_de_passageiros">Capacidade de Passageiros</string>
     <string name="cadastrar">Cadastrar</string>
+    <string name="vagas_bloco_b">Vagas Bloco B</string>
+    <string name="atualizar">Atualizar</string>
 
 
 </resources>
