@@ -4,7 +4,9 @@ import android.content.Intent; import android.content.SharedPreferences; import 
 
 import androidx.activity.EdgeToEdge; import androidx.appcompat.app.AppCompatActivity;
 
-public class MainMotorista extends AppCompatActivity { Button btnCadastroMotorista; private SharedPreferences pref;
+public class MainMotorista extends AppCompatActivity {
+    Button btnCadastroMotorista;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +18,7 @@ public class MainMotorista extends AppCompatActivity { Button btnCadastroMotoris
 
         Button btnOfCarona = findViewById(R.id.btnOfCarona);
         Button btnViewVagas = findViewById(R.id.btnViewVagas);
-        Button btnSwitchMotorista = findViewById(R.id.SwitchMotorista);
+        Button btnSwitchMotorista = findViewById(R.id.SwitchCaroneiro);
         Button btnPerfil = findViewById(R.id.btnPerfil);
         Button btnLogOut = findViewById(R.id.btnLogOut);
         Button btnSobre = findViewById(R.id.btnSobre);
@@ -27,11 +29,12 @@ public class MainMotorista extends AppCompatActivity { Button btnCadastroMotoris
                 ApiService apiService = new ApiService(MainMotorista.this);
                 apiService.executeApi(new ApiService.ApiCallback() {
                     @Override
-                    public void onApiSuccess(String caronasString) {
+                    public void onApiSuccess(String caronasString,String destinosString) {
                         Log.d("API", "Caronas string: " + caronasString);
-                        Log.d("SharedPreferences", "Caronas string: " + caronasString);
+                        Log.d("API", "Destinos string: " + destinosString);
                         Intent intent = new Intent(MainMotorista.this, MainMapa.class);
                         intent.putExtra("caronas_string", caronasString);
+                        intent.putExtra("destinos_string", destinosString);
                         startActivity(intent);
                     }
 

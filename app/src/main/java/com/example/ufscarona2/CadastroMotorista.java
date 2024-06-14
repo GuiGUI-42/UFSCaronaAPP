@@ -24,7 +24,7 @@ public class CadastroMotorista extends AppCompatActivity {
         EditText Ano= findViewById((R.id.AnoCarro));
         EditText Placa= findViewById((R.id.PlacaCarro));
         EditText passageiros= findViewById((R.id.Capacidade));
-        sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("cadastrocarro", MODE_PRIVATE);
         String savedmodelo= sharedPreferences.getString("Modelo do Carro", "");
         String savedano = sharedPreferences.getString("Ano do Carro", "");
         String savedplaca = sharedPreferences.getString("Placa do Carro", "");

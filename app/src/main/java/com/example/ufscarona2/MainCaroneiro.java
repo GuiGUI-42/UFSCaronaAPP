@@ -25,7 +25,7 @@ public class MainCaroneiro extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainCaroneiro.this,MainActivity.class);
+                Intent intent = new Intent(MainCaroneiro.this,Caronas.class);
                 startActivity(intent);
 
             }
@@ -34,7 +34,7 @@ public class MainCaroneiro extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainCaroneiro.this,ViewVagas.class);
+                Intent intent = new Intent(MainCaroneiro.this,MainMotorista.class);
                 startActivity(intent);
 
             }

@@ -7,17 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".selecao">
 
-
-
-
     <View
         android:id="@id/container"
         style="@style/ContainerComponents"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCadastro"
-        />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <EditText
         android:id="@+id/textUser"
@@ -26,8 +22,7 @@
         android:drawableRight="@drawable/baseline_co_present_24"
         app:layout_constraintEnd_toEndOf="@id/container"
         app:layout_constraintStart_toStartOf="@id/container"
-        app:layout_constraintTop_toTopOf="@id/container"
-    />
+        app:layout_constraintTop_toTopOf="@id/container" />
 
     <EditText
         android:id="@+id/textMatricula"
@@ -36,27 +31,7 @@
         android:drawableRight="@drawable/outline_build_24"
         app:layout_constraintEnd_toEndOf="@id/container"
         app:layout_constraintStart_toStartOf="@id/container"
-        app:layout_constraintTop_toBottomOf="@id/textEmail" />
-
-    <EditText
-        android:id="@+id/textEmail"
-        style="@style/Edit_Text"
-        android:hint="Email"
-        android:drawableRight="@drawable/baseline_email_24"
-        app:layout_constraintEnd_toEndOf="@id/container"
-        app:layout_constraintStart_toStartOf="@id/container"
-        app:layout_constraintTop_toBottomOf="@id/textUser"
-        />
-
-    <ImageView
-        android:id="@+id/logoufsc"
-        android:layout_width="139dp"
-        android:layout_height="196dp"
-        app:srcCompat="@drawable/logoufsc"
-        tools:layout_editor_absoluteX="123dp"
-        tools:layout_editor_absoluteY="16dp" />
-
-
+        app:layout_constraintTop_toBottomOf="@id/textUser" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCaroneiro"
@@ -67,8 +42,8 @@
         app:layout_constraintTop_toBottomOf="@id/textMatricula"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="64dp"
-    />
+        tools:layout_editor_absoluteX="64dp" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnMotorista"
         style="@style/Button"
@@ -78,20 +53,32 @@
         app:layout_constraintTop_toBottomOf="@id/btnCaroneiro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="64dp"
-        />
+        tools:layout_editor_absoluteX="64dp" />
 
-    <TextView
-        android:id="@+id/txtCadastro"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cadastro"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/textUser"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.456"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoufsc"
-        app:layout_constraintVertical_bias="0.104" />
+        android:background="@drawable/gradient_tittle"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/txtCadastro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cadastro"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.1" /> />
+
+    </LinearLayout>
+   />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

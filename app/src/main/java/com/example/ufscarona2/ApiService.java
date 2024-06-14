@@ -19,15 +19,18 @@ import java.util.List;
 public class ApiService {
     private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:3000/api/caronas";
     private SharedPreferences prefs;
+    private SharedPreferences prefsDestinos;
     private List<String> caronas = new ArrayList<>();
+    private List<String> destinos = new ArrayList<>();
 
     public interface ApiCallback {
-        void onApiSuccess(String caronasString);
+        void onApiSuccess(String caronasString, String destinosString);
         void onApiError(String error);
     }
 
     public ApiService(Context context) {
         this.prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        this.prefsDestinos = context.getSharedPreferences("prefsDestinos", Context.MODE_PRIVATE);
     }
 
     public void executeApi(ApiCallback callback) {
@@ -55,21 +58,24 @@ public class ApiService {
                         try {
                             JSONArray dataArray = new JSONArray(response.toString());
                             caronas.clear(); // Limpar a lista de caronas
+                            destinos.clear(); // Limpar a lista de destinos
                             for (int i = 0; i < 10; i++) {
                                 JSONObject obj = dataArray.getJSONObject(i);
-                                String data = obj.getString("fk_Origem");
-                                Log.d("API", "Caronas: " + data);
-                                caronas.add(data); // Adicionar os dados à lista de caronas
+                                String dataOrigem = obj.getString("fk_Origem");
+                                String dataDestino = obj.getString("fk_Destino");
+                                Log.d("API", "Origens: " + dataOrigem);
+                                Log.d("API", "Destinos: " + dataDestino);
+                                caronas.add(dataOrigem); // Adicionar os dados à lista de caronas
+                                destinos.add(dataDestino); // Adicionar os dados à lista de destinos
                             }
-                            String caronasString = "";
-                            for (String carona : caronas) {
-                                caronasString += carona + ","; // Converter a lista de caronas para uma string
-                            }
-                            caronasString = caronasString.substring(0, caronasString.length() - 1); // Remover a vírgula extra no final
+                            String caronasString = convertListToString(caronas);
+                            String destinosString = convertListToString(destinos);
                             Log.d("API", "Caronas string: " + caronasString);
-                            callback.onApiSuccess(caronasString);
+                            Log.d("API", "Destinos string: " + destinosString);
+                            callback.onApiSuccess(caronasString, destinosString);
 
                             prefs.edit().putString("caronas_array", caronasString).apply();
+                            prefsDestinos.edit().putString("destinos_array", destinosString).apply();
                         } catch (JSONException e) {
                             callback.onApiError(e.getMessage());
                         }
@@ -83,7 +89,20 @@ public class ApiService {
         }).start();
     }
 
+    private String convertListToString(List<String> list) {
+        StringBuilder sb = new StringBuilder();
+        for (String item : list) {
+            sb.append(item).append(",");
+        }
+        return sb.toString().substring(0, sb.toString().length() - 1);
+    }
+
     public List<String> getCaronas() {
         return caronas;
     }
+
+    public List<String> getDestinos() {
+        return destinos;
+    }
 }
+//String caronasString = "";

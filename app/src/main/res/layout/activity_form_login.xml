@@ -41,9 +41,9 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="340dp"
-        android:layout_height="42dp"
+        android:layout_height="100dp"
         android:text="UFSCarona"
-        android:textSize="20sp"
+        android:textSize="60sp"
         android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"

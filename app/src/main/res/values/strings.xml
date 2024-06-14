@@ -20,6 +20,16 @@
     <string-array name="caronas_array">
         <!-- os dados serão adicionados aqui -->
     </string-array>
+    <string-array name="destinos_array">
+        <!-- os dados serão adicionados aqui -->
+    </string-array>
+
+    <string name="cadastro_do_carro">Cadastro do Carro</string>
+    <string name="modelo_do_carro">Modelo do Carro</string>
+    <string name="ano_do_carro">Ano do Carro</string>
+    <string name="placa_do_carro">Placa do Carro</string>
+    <string name="capacidade_de_passageiros">Capacidade de Passageiros</string>
+    <string name="cadastrar">Cadastrar</string>
 
 
 </resources>

@@ -42,7 +42,7 @@ public class FormLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_form_login);
-        pref = getSharedPreferences("MyPref", MODE_PRIVATE);
+        pref = getSharedPreferences("perfil", MODE_PRIVATE);
         Button Btn1 = findViewById(R.id.btnLogin);
 
 
@@ -128,7 +128,9 @@ public class FormLogin extends AppCompatActivity {
                                     map.put("email", userEmail);
 
                                     database.getReference().child("users").child(user.getUid()).setValue(map);
-
+                                    SharedPreferences.Editor editor = pref.edit();
+                                    editor.putString("userEmail", userEmail);
+                                    editor.apply();
                                     Intent intent = new Intent(FormLogin.this, selecao.class);
                                     startActivity(intent);
 

@@ -8,80 +8,88 @@
     android:background="@drawable/background"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textufsc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UFSCarona"
-        android:textSize="34sp"
-        tools:layout_editor_absoluteX="121dp"
-        tools:layout_editor_absoluteY="35dp" />
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnOfCarona"
-        android:layout_width="wrap_content"
+        style="@style/Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
         android:text="Oferecer Carona"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textufsc" />
+        android:layout_marginTop="30dp"
+        tools:layout_editor_absoluteX="64dp" />
 
-    <Button
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="207dp"
+        android:layout_height="181dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/logo"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnViewVagas"
-        android:layout_width="wrap_content"
+        style="@style/Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
         android:text="Visualizar Vagas"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintTop_toBottomOf="@id/btnOfCarona"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOfCarona" />
+        android:layout_marginTop="30dp"
+        tools:layout_editor_absoluteX="64dp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSobre"
-        android:layout_width="wrap_content"
+        style="@style/Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sobre"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogOut"
+        app:layout_constraintTop_toBottomOf="@id/btnPerfil"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPerfil"
-        app:layout_constraintVertical_bias="0.347" />
+        android:layout_marginTop="30dp"
+        tools:layout_editor_absoluteX="64dp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPerfil"
-        android:layout_width="wrap_content"
+        style="@style/Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
         android:text="Perfil"
+        app:layout_constraintTop_toBottomOf="@id/SwitchCaroneiro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SwitchMotorista" />
+        android:layout_marginTop="30dp"
+        tools:layout_editor_absoluteX="64dp" />
 
-    <Button
-        android:id="@+id/SwitchMotorista"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/SwitchCaroneiro"
+        style="@style/Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:text="Caroneiro"
+        app:layout_constraintTop_toBottomOf="@id/btnViewVagas"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBcCarona" />
+        android:layout_marginTop="30dp"
+        tools:layout_editor_absoluteX="64dp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogOut"
-        android:layout_width="wrap_content"
+        style="@style/Button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="Sair"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSobre"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        tools:layout_editor_absoluteX="64dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

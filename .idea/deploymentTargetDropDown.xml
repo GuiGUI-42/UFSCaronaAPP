@@ -5,19 +5,19 @@
       <entry key="ApiActvity">
         <State />
       </entry>
-      <entry key="ApiActvityPOST">
-        <State />
-      </entry>
-      <entry key="FormLogin">
-        <State />
-      </entry>
       <entry key="MainMapa">
         <State />
       </entry>
       <entry key="MainMotorista">
         <State />
       </entry>
+      <entry key="ViewVagas">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="selecao">
         <State />
       </entry>
     </value>

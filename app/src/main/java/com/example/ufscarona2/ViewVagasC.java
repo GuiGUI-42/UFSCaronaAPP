@@ -56,12 +56,14 @@ public class ViewVagasC extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewVagasC.this,ViewVagasB.class);
+                startActivity(intent);
             }
         });
         sair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewVagasC.this,MainMotorista.class);
+                startActivity(intent);
             }
         });
     }
