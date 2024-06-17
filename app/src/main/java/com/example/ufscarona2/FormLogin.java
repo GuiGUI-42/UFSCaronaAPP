@@ -62,6 +62,9 @@ public class FormLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int storedValue = pref.getInt("myInt", -1);
+                FirebaseUser user = Auth.getCurrentUser();
+                String userEmail = user.getEmail();
+                Log.d("User Email", "Email: " + userEmail);
                 if (storedValue==10){
                     Intent intent = new Intent(FormLogin.this, MainMotorista.class);
                     startActivity(intent);

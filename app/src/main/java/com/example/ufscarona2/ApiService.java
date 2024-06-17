@@ -17,20 +17,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApiService {
-    private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:3000/api/caronas";
+    private static final String TAG = "ApiService";
+    private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:8081/api/caronas";
     private SharedPreferences prefs;
     private SharedPreferences prefsDestinos;
     private List<String> caronas = new ArrayList<>();
     private List<String> destinos = new ArrayList<>();
 
-    public interface ApiCallback {
-        void onApiSuccess(String caronasString, String destinosString);
-        void onApiError(String error);
-    }
-
     public ApiService(Context context) {
         this.prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         this.prefsDestinos = context.getSharedPreferences("prefsDestinos", Context.MODE_PRIVATE);
+    }
+
+    public interface ApiCallback {
+        void onApiSuccess(List<String> caronas, List<String> destinos);
+
+        void onApiError(String error);
+    }
+
+    private String convertListToString(List<String> list) {
+        StringBuilder sb = new StringBuilder();
+        for (String item : list) {
+            sb.append(item).append(",");
+        }
+        return sb.toString();
     }
 
     public void executeApi(ApiCallback callback) {
@@ -48,61 +58,55 @@ public class ApiService {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                         StringBuilder response = new StringBuilder();
                         String line;
-                        while ((line = reader.readLine())!= null) {
+                        while ((line = reader.readLine()) != null) {
                             response.append(line);
                         }
                         reader.close();
 
-                        Log.d("API", "Resposta da API: " + response.toString());
+                        Log.d(TAG, "Resposta da API: " + response.toString());
 
                         try {
-                            JSONArray dataArray = new JSONArray(response.toString());
-                            caronas.clear(); // Limpar a lista de caronas
-                            destinos.clear(); // Limpar a lista de destinos
-                            for (int i = 0; i < 10; i++) {
-                                JSONObject obj = dataArray.getJSONObject(i);
-                                String dataOrigem = obj.getString("fk_Origem");
-                                String dataDestino = obj.getString("fk_Destino");
-                                Log.d("API", "Origens: " + dataOrigem);
-                                Log.d("API", "Destinos: " + dataDestino);
-                                caronas.add(dataOrigem); // Adicionar os dados à lista de caronas
-                                destinos.add(dataDestino); // Adicionar os dados à lista de destinos
-                            }
-                            String caronasString = convertListToString(caronas);
-                            String destinosString = convertListToString(destinos);
-                            Log.d("API", "Caronas string: " + caronasString);
-                            Log.d("API", "Destinos string: " + destinosString);
-                            callback.onApiSuccess(caronasString, destinosString);
+                            // Parseando a resposta da API
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            JSONArray dataArray = jsonObject.getJSONArray("Caronas");
+                            caronas.clear();
+                            destinos.clear();
 
-                            prefs.edit().putString("caronas_array", caronasString).apply();
-                            prefsDestinos.edit().putString("destinos_array", destinosString).apply();
+                            for (int i = 0; i < dataArray.length(); i++) {
+                                JSONObject obj = dataArray.getJSONObject(i);
+
+                                // Extraindo "Origem" e "Destino"
+                                String dataOrigem = obj.optString("Origem", "Origem não encontrada");
+                                String dataDestino = obj.optString("Destino", "Destino não encontrado");
+
+                                // Log para depuração
+                                //Log.d(TAG, "Item " + i + " - Origem: " + dataOrigem);
+                                //Log.d(TAG, "Item " + i + " - Destino: " + dataDestino);
+
+                                // Adicionando às listas
+                                caronas.add(dataOrigem);
+                                destinos.add(dataDestino);
+                            }
+
+                            // Logando as listas finais para depuração
+                            Log.d(TAG, "Lista final de Caronas: " + caronas);
+                            Log.d(TAG, "Lista final de Destinos: " + destinos);
+
+                            callback.onApiSuccess(caronas, destinos);
+
+                            // Salvando as listas no SharedPreferences
+                            prefs.edit().putString("caronas_array", convertListToString(caronas)).apply();
+                            prefsDestinos.edit().putString("destinos_array", convertListToString(destinos)).apply();
                         } catch (JSONException e) {
-                            callback.onApiError(e.getMessage());
+                            callback.onApiError("Erro ao processar JSON: " + e.getMessage());
                         }
                     } else {
-                        callback.onApiError("Erro ao carregar dados: " + statusCode);
+                        callback.onApiError("Código de resposta de erro: " + statusCode);
                     }
                 } catch (IOException e) {
-                    callback.onApiError("Erro ao carregar dados: " + e.getMessage());
+                    callback.onApiError("Erro ao conectar à API: " + e.getMessage());
                 }
             }
         }).start();
     }
-
-    private String convertListToString(List<String> list) {
-        StringBuilder sb = new StringBuilder();
-        for (String item : list) {
-            sb.append(item).append(",");
-        }
-        return sb.toString().substring(0, sb.toString().length() - 1);
-    }
-
-    public List<String> getCaronas() {
-        return caronas;
-    }
-
-    public List<String> getDestinos() {
-        return destinos;
-    }
 }
-//String caronasString = "";

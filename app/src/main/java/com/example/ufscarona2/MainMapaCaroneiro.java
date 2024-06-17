@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
+public class MainMapaCaroneiro extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;

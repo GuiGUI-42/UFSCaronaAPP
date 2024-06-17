@@ -13,13 +13,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class Caronas extends AppCompatActivity {
 
     private ListView caronaList;
     private SharedPreferences prefs;
+
+    private String caronasString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,38 +28,39 @@ public class Caronas extends AppCompatActivity {
         setContentView(R.layout.activity_caronas);
 
         caronaList = findViewById(R.id.caronalist);
+        caronasString = "Carona 1 - Origem: A - Destino: B,Carona 2 - Origem: C - Destino: D,Carona 3 - Origem: E - Destino: F";
         prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         Button confirmar= findViewById(R.id.btn_confirmar);
         Button sair= findViewById(R.id.btn_sair);
-        String caronasString = prefs.getString("caronas_array", "");
         Log.d("SharedPreferences", "Caronas string: " + caronasString);
 
         if (caronasString.isEmpty()) {
             Toast.makeText(this, "Erro: caronasString é vazia", Toast.LENGTH_SHORT).show();
         } else {
             String[] caronasArray = caronasString.split(",");
+            ArrayList<Carona> caronasList = new ArrayList<>();
+            for (String caronaString : caronasArray) {
+                String[] parts = caronaString.split(" - ");
+                Carona carona = new Carona(parts[0], parts[1], parts[2]);
+                caronasList.add(carona);
+            }
 
-            // Remove elementos repetidos usando um HashSet
-            HashSet<String> set = new HashSet<>();
-            set.addAll(Arrays.asList(caronasArray));
-            caronasArray = set.toArray(new String[0]);
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, caronasArray);
+            ArrayAdapter<Carona> adapter = new ArrayAdapter<Carona>(this, android.R.layout.simple_list_item_1, caronasList);
             caronaList.setAdapter(adapter);
 
             caronaList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedCarona = parent.getItemAtPosition(position).toString();
-                    prefs.edit().putString("selected_carona", selectedCarona).apply();
-                    Toast.makeText(Caronas.this, "Você selecionou o item " + selectedCarona, Toast.LENGTH_SHORT).show();
+                    Carona selectedCarona = (Carona) parent.getItemAtPosition(position);
+                    prefs.edit().putString("selected_carona", selectedCarona.toString()).apply();
+                    Toast.makeText(Caronas.this, "Você selecionou o item " + selectedCarona.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
         confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Caronas.this, MainMapa.class);
+                Intent intent = new Intent(Caronas.this, MainMapaCaroneiro.class);
                 startActivity(intent);
             }
         });
@@ -69,5 +71,34 @@ public class Caronas extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+}
+
+class Carona {
+    private String nome;
+    private String origem;
+    private String destino;
+
+    public Carona(String nome, String origem, String destino) {
+        this.nome = nome;
+        this.origem = origem;
+        this.destino = destino;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getOrigem() {
+        return origem;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " - Oi: " + origem + " - Destino: " + destino;
     }
 }

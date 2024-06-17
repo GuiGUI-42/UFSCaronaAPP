@@ -35,8 +35,8 @@ public class ApiActvityPOST extends AppCompatActivity {
                     postData.put("idCarona", 3);
                     postData.put("Data", "2024-02-16T14:00:00.000Z");
                     postData.put("fk_Carro_idCarro", 7);
-                    postData.put("fk_Origem", 6);
-                    postData.put("fk_Destino", 12);
+                    postData.put("Origem", 6);
+                    postData.put("Destino", 12);
 
                     DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
                     outputStream.writeBytes(postData.toString());

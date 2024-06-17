@@ -1,12 +1,22 @@
 package com.example.ufscarona2;
 
-import android.content.Intent; import android.content.SharedPreferences; import android.os.Bundle; import android.util.Log; import android.view.View; import android.widget.Button;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-import androidx.activity.EdgeToEdge; import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainMotorista extends AppCompatActivity {
     Button btnCadastroMotorista;
-    private SharedPreferences pref;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +24,7 @@ public class MainMotorista extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_motorista);
 
-        pref = getSharedPreferences("caronas_prefs", MODE_PRIVATE);
+        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
 
         Button btnOfCarona = findViewById(R.id.btnOfCarona);
         Button btnViewVagas = findViewById(R.id.btnViewVagas);
@@ -26,15 +36,16 @@ public class MainMotorista extends AppCompatActivity {
         btnOfCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("API", "Botão clicado");
                 ApiService apiService = new ApiService(MainMotorista.this);
                 apiService.executeApi(new ApiService.ApiCallback() {
                     @Override
-                    public void onApiSuccess(String caronasString,String destinosString) {
-                        Log.d("API", "Caronas string: " + caronasString);
-                        Log.d("API", "Destinos string: " + destinosString);
+                    public void onApiSuccess(List<String> caronas, List<String> destinos) {
+                        Log.d("API", "Caronas: " + caronas);
+                        Log.d("API", "Destinos: " + destinos);
                         Intent intent = new Intent(MainMotorista.this, MainMapa.class);
-                        intent.putExtra("caronas_string", caronasString);
-                        intent.putExtra("destinos_string", destinosString);
+                        intent.putStringArrayListExtra("caronas", (ArrayList<String>) caronas);
+                        intent.putStringArrayListExtra("destinos", (ArrayList<String>) destinos);
                         startActivity(intent);
                     }
 
