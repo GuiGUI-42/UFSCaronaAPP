@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ApiActvityPOST extends AppCompatActivity {
-    private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:3000/api/caronas/insert";
+    private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:8081/api/usuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +32,11 @@ public class ApiActvityPOST extends AppCompatActivity {
                     connection.setDoOutput(true);
 
                     JSONObject postData = new JSONObject();
-                    postData.put("idCarona", 3);
-                    postData.put("Data", "2024-02-16T14:00:00.000Z");
-                    postData.put("fk_Carro_idCarro", 7);
-                    postData.put("Origem", 6);
-                    postData.put("Destino", 12);
+                    postData.put("nome", "dasd");
+                    postData.put("email", "obagsjs@lksadm.feio");
+                    postData.put("matricula", "18202454");
+                    postData.put("motorista", 0);
+                    postData.put("caroneiro", 1);
 
                     DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
                     outputStream.writeBytes(postData.toString());

@@ -1,4 +1,3 @@
-
 package com.example.ufscarona2;
 
 import android.content.Intent;
@@ -10,8 +9,9 @@ import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
 public class CadastroMotorista extends AppCompatActivity {
-    Button btnCadastroMotorista;
+    private Button btnCadastroMotorista;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -19,38 +19,50 @@ public class CadastroMotorista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cadastro_motorista);
-        Button Btn1 = findViewById(R.id.CadastroMotorista);
-        EditText modelo= findViewById((R.id.ModeloCarro));
-        EditText Ano= findViewById((R.id.AnoCarro));
-        EditText Placa= findViewById((R.id.PlacaCarro));
-        EditText passageiros= findViewById((R.id.Capacidade));
+
+        btnCadastroMotorista = findViewById(R.id.CadastroMotorista);
+        EditText modelo = findViewById(R.id.ModeloCarro);
+        EditText ano = findViewById(R.id.AnoCarro);
+        EditText placa = findViewById(R.id.PlacaCarro);
+        EditText passageiros = findViewById(R.id.Capacidade);
+
         sharedPreferences = getSharedPreferences("cadastrocarro", MODE_PRIVATE);
-        String savedmodelo= sharedPreferences.getString("Modelo do Carro", "");
-        String savedano = sharedPreferences.getString("Ano do Carro", "");
-        String savedplaca = sharedPreferences.getString("Placa do Carro", "");
-        String savedcapacidade = sharedPreferences.getString("Capacidade de Passageiros", "");
-        modelo.setText(savedmodelo);
-        Ano.setText(savedano);
-        Placa.setText(savedplaca);
-        passageiros.setText(savedcapacidade);
+        String savedModelo = sharedPreferences.getString("Modelo do Carro", "");
+        String savedAno = sharedPreferences.getString("Ano do Carro", "");
+        String savedPlaca = sharedPreferences.getString("Placa do Carro", "");
+        String savedCapacidade = sharedPreferences.getString("Capacidade de Passageiros", "");
+        modelo.setText(savedModelo);
+        ano.setText(savedAno);
+        placa.setText(savedPlaca);
+        passageiros.setText(savedCapacidade);
 
-        Btn1.setOnClickListener( new View.OnClickListener(){
-
+        btnCadastroMotorista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Modelo= modelo.getText().toString();
-                String ano= Ano.getText().toString();
-                String placa= Placa.getText().toString();
-                String Capacidade = passageiros.getText().toString();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("Modelo do Carro", Modelo);
-                editor.putString("Ano do Carro", ano);
-                editor.putString("Placa do Carro", placa);
-                editor.putString("Capacidade de Passageiros", Capacidade);
-                editor.apply();
-                Intent intent = new Intent(CadastroMotorista.this,MainMotorista.class);
-                startActivity(intent);
+                String modeloCarro = modelo.getText().toString();
+                String anoCarro = ano.getText().toString();
+                String placaCarro = placa.getText().toString();
+                String capacidade = passageiros.getText().toString();
 
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("Modelo do Carro", modeloCarro);
+                editor.putString("Ano do Carro", anoCarro);
+                editor.putString("Placa do Carro", placaCarro);
+                editor.putString("Capacidade de Passageiros", capacidade);
+                editor.apply();
+
+                // Iniciar o serviço ApiPOSTService
+                Intent serviceIntent = new Intent(CadastroMotorista.this, ApiPOSTService.class);
+                serviceIntent.putExtra("nome", "dasd");
+                serviceIntent.putExtra("email", "obagsjs@lksadm.feio");
+                serviceIntent.putExtra("matricula", "18202454");
+                serviceIntent.putExtra("motorista", 0); // Ajustar conforme necessário
+                serviceIntent.putExtra("caroneiro", 1); // Ajustar conforme necessário
+                startService(serviceIntent);
+
+                // Iniciar a próxima atividade
+                Intent intent = new Intent(CadastroMotorista.this, MainMotorista.class);
+                startActivity(intent);
             }
         });
     }

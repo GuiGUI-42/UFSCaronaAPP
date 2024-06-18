@@ -58,7 +58,7 @@ public class selecao extends AppCompatActivity {
                 editor.putString("user", usuario);
                 editor.putString("matricula", mat);
                 editor.apply();
-                Intent intent = new Intent(selecao.this, MainCaroneiro.class);
+                Intent intent = new Intent(selecao.this, SomenteCaroneiro.class);
                 startActivity(intent);
             }
         });

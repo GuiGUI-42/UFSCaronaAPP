@@ -21,12 +21,14 @@ public class ApiService {
     private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:8081/api/caronas";
     private SharedPreferences prefs;
     private SharedPreferences prefsDestinos;
+    private SharedPreferences origemCarona;
     private List<String> caronas = new ArrayList<>();
     private List<String> destinos = new ArrayList<>();
 
     public ApiService(Context context) {
         this.prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         this.prefsDestinos = context.getSharedPreferences("prefsDestinos", Context.MODE_PRIVATE);
+
     }
 
     public interface ApiCallback {
