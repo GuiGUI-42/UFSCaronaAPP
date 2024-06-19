@@ -78,12 +78,12 @@ public class ApiService {
                                 JSONObject obj = dataArray.getJSONObject(i);
 
                                 // Extraindo "Origem" e "Destino"
-                                String dataOrigem = obj.optString("Origem", "Origem não encontrada");
-                                String dataDestino = obj.optString("Destino", "Destino não encontrado");
+                                String dataOrigem = obj.optString("origem", "Origem não encontrada");
+                                String dataDestino = obj.optString("destino", "Destino não encontrado");
 
                                 // Log para depuração
-                                //Log.d(TAG, "Item " + i + " - Origem: " + dataOrigem);
-                                //Log.d(TAG, "Item " + i + " - Destino: " + dataDestino);
+                                Log.d(TAG, "Item " + i + " - Origem: " + dataOrigem);
+                                Log.d(TAG, "Item " + i + " - Destino: " + dataDestino);
 
                                 // Adicionando às listas
                                 caronas.add(dataOrigem);
