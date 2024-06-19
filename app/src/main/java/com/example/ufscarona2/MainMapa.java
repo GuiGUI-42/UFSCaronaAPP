@@ -1,11 +1,13 @@
 package com.example.ufscarona2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.fragment.app.FragmentActivity;
@@ -45,11 +47,13 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, origens);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter1);
-
+        Button confirm = findViewById(R.id.confirm);
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, destinos);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
+
+
 
         // Adicionar listeners para os Spinners
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -79,6 +83,32 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Não há nada selecionado
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+                Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+
+                String origem = spinner1.getSelectedItem().toString();
+                String destino = spinner2.getSelectedItem().toString();
+
+                // Extrair o nome da origem e destino sem as coordenadas
+                String[] partsOrigem = origem.split(" (?=-?[0-9]+\\.?[0-9]* -?[0-9]+\\.?[0-9]*)");
+                String[] partsDestino = destino.split(" (?=-?[0-9]+\\.?[0-9]* -?[0-9]+\\.?[0-9]*)");
+
+                String origemName = partsOrigem[0];
+                String destinoName = partsDestino[0];
+
+                // Salvar em SharedPreferences
+                SharedPreferences prefs = getSharedPreferences("UFSCaronaPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("origem", origemName);
+                editor.putString("destino", destinoName);
+                editor.apply();
+                Intent intent = new Intent(MainMapa.this, MainMotorista.class);
+                startActivity(intent);
             }
         });
     }
@@ -138,5 +168,10 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
         } else {
             Log.e("Error", "Invalid format: " + selectedPlanet);
         }
+
+
     }
+
+
+
 }
