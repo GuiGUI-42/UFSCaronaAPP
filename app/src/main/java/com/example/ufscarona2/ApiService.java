@@ -21,28 +21,18 @@ public class ApiService {
     private static final String API_URL = "http://ufscarona.j.p.carvalho.vms.ufsc.br:8081/api/caronas";
     private SharedPreferences prefs;
     private SharedPreferences prefsDestinos;
-    private SharedPreferences origemCarona;
-    private List<String> caronas = new ArrayList<>();
+    private List<String> origens = new ArrayList<>();
     private List<String> destinos = new ArrayList<>();
 
     public ApiService(Context context) {
         this.prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         this.prefsDestinos = context.getSharedPreferences("prefsDestinos", Context.MODE_PRIVATE);
-
     }
 
     public interface ApiCallback {
-        void onApiSuccess(List<String> caronas, List<String> destinos);
+        void onApiSuccess(List<String> origens, List<String> destinos);
 
         void onApiError(String error);
-    }
-
-    private String convertListToString(List<String> list) {
-        StringBuilder sb = new StringBuilder();
-        for (String item : list) {
-            sb.append(item).append(",");
-        }
-        return sb.toString();
     }
 
     public void executeApi(ApiCallback callback) {
@@ -70,35 +60,31 @@ public class ApiService {
                         try {
                             // Parseando a resposta da API
                             JSONObject jsonObject = new JSONObject(response.toString());
-                            JSONArray dataArray = jsonObject.getJSONArray("Caronas");
-                            caronas.clear();
-                            destinos.clear();
+                            if (jsonObject.has("Caronas") && jsonObject.getJSONArray("Caronas") != null) {
+                                JSONArray dataArray = jsonObject.getJSONArray("Caronas");
+                                origens.clear();
+                                destinos.clear();
 
-                            for (int i = 0; i < dataArray.length(); i++) {
-                                JSONObject obj = dataArray.getJSONObject(i);
+                                for (int i = 0; i < dataArray.length(); i++) {
+                                    JSONObject obj = dataArray.getJSONObject(i);
 
-                                // Extraindo "Origem" e "Destino"
-                                String dataOrigem = obj.optString("origem", "Origem não encontrada");
-                                String dataDestino = obj.optString("destino", "Destino não encontrado");
+                                    // Extraindo dados
+                                    String origem = obj.optString("origem", "Origem não encontrada");
+                                    double ori_lat = obj.optDouble("ori_lat", 0.0);
+                                    double ori_lon = obj.optDouble("ori_lon", 0.0);
+                                    String destino = obj.optString("destino", "Destino não encontrado");
+                                    double dest_lat = obj.optDouble("dest_lat", 0.0);
+                                    double dest_lon = obj.optDouble("dest_lon", 0.0);
 
-                                // Log para depuração
-                                Log.d(TAG, "Item " + i + " - Origem: " + dataOrigem);
-                                Log.d(TAG, "Item " + i + " - Destino: " + dataDestino);
+                                    // Adicionando à lista
+                                    origens.add(origem + " " + ori_lat + " " + ori_lon);
+                                    destinos.add(destino + " " + dest_lat + " " + dest_lon);
+                                }
 
-                                // Adicionando às listas
-                                caronas.add(dataOrigem);
-                                destinos.add(dataDestino);
+                                callback.onApiSuccess(origens, destinos);
+                            } else {
+                                callback.onApiError("Chave 'Caronas' não encontrada ou é nula");
                             }
-
-                            // Logando as listas finais para depuração
-                            Log.d(TAG, "Lista final de Caronas: " + caronas);
-                            Log.d(TAG, "Lista final de Destinos: " + destinos);
-
-                            callback.onApiSuccess(caronas, destinos);
-
-                            // Salvando as listas no SharedPreferences
-                            prefs.edit().putString("caronas_array", convertListToString(caronas)).apply();
-                            prefsDestinos.edit().putString("destinos_array", convertListToString(destinos)).apply();
                         } catch (JSONException e) {
                             callback.onApiError("Erro ao processar JSON: " + e.getMessage());
                         }

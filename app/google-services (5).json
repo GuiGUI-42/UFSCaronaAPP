@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "856405875390",
+    "firebase_url": "https://ufscarona-default-rtdb.firebaseio.com",
+    "project_id": "ufscarona",
+    "storage_bucket": "ufscarona.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856405875390:android:74e616ef0f9296b1199cef",
+        "android_client_info": {
+          "package_name": "com.example.ufscarona2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856405875390-2pm2jusu2rvdd9qq2nj924j5lfhm871j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ufscarona2",
+            "certificate_hash": "4c2dc05bc2bdc26e185818f1d8da1650513e5336"
+          }
+        },
+        {
+          "client_id": "856405875390-7ck2ulgirutpc0q8ktjdshqro3o1o0d9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0s3w8hPXPOLZUvLmN1IaVmW50kvZeOKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "856405875390-7ck2ulgirutpc0q8ktjdshqro3o1o0d9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

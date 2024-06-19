@@ -40,11 +40,11 @@ public class MainMotorista extends AppCompatActivity {
                 ApiService apiService = new ApiService(MainMotorista.this);
                 apiService.executeApi(new ApiService.ApiCallback() {
                     @Override
-                    public void onApiSuccess(List<String> caronas, List<String> destinos) {
-                        Log.d("API", "Caronas: " + caronas);
+                    public void onApiSuccess(List<String> origens, List<String> destinos) {
+                        Log.d("API", "Origens: " + origens);
                         Log.d("API", "Destinos: " + destinos);
                         Intent intent = new Intent(MainMotorista.this, MainMapa.class);
-                        intent.putStringArrayListExtra("caronas", (ArrayList<String>) caronas);
+                        intent.putStringArrayListExtra("origens", (ArrayList<String>) origens);
                         intent.putStringArrayListExtra("destinos", (ArrayList<String>) destinos);
                         startActivity(intent);
                     }
@@ -52,6 +52,7 @@ public class MainMotorista extends AppCompatActivity {
                     @Override
                     public void onApiError(String error) {
                         Log.e("API", "Erro ao carregar dados: " + error);
+                        // Trate o erro conforme necessário
                     }
                 });
             }

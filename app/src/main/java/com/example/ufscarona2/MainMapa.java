@@ -1,31 +1,26 @@
 package com.example.ufscarona2;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 
 public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
-    private SharedPreferences prefs;
+    private List<String> origens;
+    private List<String> destinos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,75 +30,48 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        // Recuperar as listas de origens e destinos da Intent
+        Intent intent = getIntent();
+        origens = intent.getStringArrayListExtra("origens");
+        destinos = intent.getStringArrayListExtra("destinos");
 
+        // Popular os Spinners com as listas de origens e destinos
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-
-        String caronasString = prefs.getString("caronas_array", "");
-        Log.d("SharedPreferences", "Caronas string: " + caronasString); // Adicionei essa linha para imprimir a string no logcat
-
-        if (caronasString.isEmpty()) {
-            Toast.makeText(this, "Erro: caronasString é vazia", Toast.LENGTH_SHORT).show();
-        } else {
-            String[] caronasArray = caronasString.split(",");
-
-            // Remove elementos repetidos usando um HashSet
-            HashSet<String> set = new HashSet<>();
-            set.addAll(Arrays.asList(caronasArray));
-            caronasArray = set.toArray(new String[0]);
-
-            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, caronasArray);
-            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner1.setAdapter(adapter1);
-
-            spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedString = parent.getItemAtPosition(position).toString();
-                    updateMapPoint1(selectedString);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Não há nada selecionado
-                }
-            });
-        }
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, origens);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter1);
 
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, destinos);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter2);
 
-        // Lendo destinos do prefsDestinos em vez de prefs
-        SharedPreferences prefsDestinos = getSharedPreferences("prefsDestinos", MODE_PRIVATE);
-        String destinosString = prefsDestinos.getString("destinos_array", ""); // Modificação aqui
-        Log.d("SharedPreferences", "Destinos string: " + destinosString);
+        // Adicionar listeners para os Spinners
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedString = parent.getItemAtPosition(position).toString();
+                updateMapPoint1(selectedString);
+            }
 
-        if (destinosString.isEmpty()) {
-            Toast.makeText(this, "Erro: destinosString é vazia", Toast.LENGTH_SHORT).show();
-        } else {
-            String[] destinosArray = destinosString.split(",");
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Não há nada selecionado
+            }
+        });
 
-            // Remove elementos repetidos usando um HashSet
-            HashSet<String> set = new HashSet<>();
-            set.addAll(Arrays.asList(destinosArray));
-            destinosArray = set.toArray(new String[0]);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedString = parent.getItemAtPosition(position).toString();
+                updateMapPoint2(selectedString);
+            }
 
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, destinosArray);
-            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner2.setAdapter(adapter2);
-
-            spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedString = parent.getItemAtPosition(position).toString();
-                    updateMapPoint2(selectedString);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Não há nada selecionado
-                }
-            });
-        }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Não há nada selecionado
+            }
+        });
     }
 
     @Override
@@ -113,27 +81,13 @@ public class MainMapa extends FragmentActivity implements OnMapReadyCallback {
 
     private void updateMapPoint1(String selectedPlanet) {
         // Atualiza o ponto no mapa com base na origem selecionada
-        float lat, lgn;
-        if (selectedPlanet.equals("UFSC Blumenau Bloco A")) {
-            lat = (float) -26.9209275;
-            lgn = (float) -49.1029942;
-        } else {
-            lat = (float) -27.9209275;
-            lgn = (float) -50.1029942;
-        }
-
-        LatLng point1 = new LatLng(lat, lgn);
-        mMap.clear();
-        mMap.addMarker(new MarkerOptions()
-                .position(point1)
-                .title("Ponto 1")
-                .snippet("UFSC"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point1, 14));
+        // Você precisa implementar a lógica para extrair as coordenadas da origem selecionada
+        // e atualizar o mapa com base nelas
     }
 
     private void updateMapPoint2(String selectedDestination) {
         // Atualiza o ponto no mapa com base no destino selecionado
-        // Aqui você deve implementar a lógica de atualização com base no destino selecionado
-        // Adicione a lógica específica para os destinos, similar à lógica de updateMapPoint1 se necessário
+        // Você precisa implementar a lógica para extrair as coordenadas do destino selecionado
+        // e atualizar o mapa com base nelas
     }
 }
