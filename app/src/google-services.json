@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "648605945591",
+    "project_id": "ufscarona2-fea86",
+    "storage_bucket": "ufscarona2-fea86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648605945591:android:2004acdd1a7f560971cdf2",
+        "android_client_info": {
+          "package_name": "com.example.ufscarona2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaeTE2vU_HSyLwIZDu4otXqmTZoddWNmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
