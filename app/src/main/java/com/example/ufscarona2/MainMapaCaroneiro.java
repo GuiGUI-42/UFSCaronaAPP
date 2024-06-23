@@ -1,9 +1,7 @@
 package com.example.ufscarona2;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -14,41 +12,51 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class MainMapaCaroneiro extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private SupportMapFragment mapFragment;
-    private SharedPreferences prefs;
-    private SharedPreferences save;
-
+    private String origemSelecionada;
+    private API api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_mapa);
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        setContentView(R.layout.activity_main_mapa_caroneiro);
+
+        // Recuperar origem selecionada da Intent
+        origemSelecionada = getIntent().getStringExtra("origemSelecionada");
+
+        // Inicializar o SupportMapFragment e registrar o callback para o mapa estar pronto
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        save = getSharedPreferences("orig", MODE_PRIVATE);
+        // Iniciar o API para obter os dados das caronas
+        api = new API(this);
+        api.executeApi(new API.ApiCallback() {
+            @Override
+            public void onApiSuccess(List<String> origens, List<String> destinos, List<Double> oriLatitudes, List<Double> oriLongitudes) {
+                // Dados de origens e destinos podem ser usados aqui se necessário
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateMapWithSelectedOrigin(origemSelecionada, origens, oriLatitudes, oriLongitudes);
+                    }
+                });
+            }
 
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-
-        String caronasString = prefs.getString("caronas_array", "");
-        Log.d("SharedPreferences", "Caronas string: " + caronasString); // Adicionei essa linha para imprimir a string no logcat
-
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-
-        // Lendo destinos do prefsDestinos em vez de prefs
-        SharedPreferences prefsDestinos = getSharedPreferences("prefsDestinos", MODE_PRIVATE);
-        String destinosString = prefsDestinos.getString("destinos_array", ""); // Modificação aqui
-        Log.d("SharedPreferences", "Destinos string: " + destinosString);
-
-        String Origem =save.getString("origemCarona", "");
-
-
-
+            @Override
+            public void onApiError(String error) {
+                // Exibir Toast de erro na thread principal
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainMapaCaroneiro.this, "Erro ao obter dados da API: " + error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -56,29 +64,43 @@ public class MainMapaCaroneiro extends FragmentActivity implements OnMapReadyCal
         mMap = googleMap;
     }
 
-    private void updateMapPoint1(String Origem) {
-        // Atualiza o ponto no mapa com base na origem selecionada
-        float lat, lgn;
-        if (Origem.equals("UFSC Blumenau Bloco A")) {
-            lat = (float) -26.9209275;
-            lgn = (float) -49.1029942;
-        } else {
-            lat = (float) -27.9209275;
-            lgn = (float) -50.1029942;
+    private void updateMapWithSelectedOrigin(String origemSelecionada, List<String> origens, List<Double> oriLatitudes, List<Double> oriLongitudes) {
+        // A API já garantiu que a origem selecionada está presente nos dados retornados
+        // Vamos encontrar as coordenadas correspondentes e atualizar o mapa
+
+        boolean origemEncontrada = false;
+
+        // Verificar se o mapa está pronto antes de atualizar
+        if (mMap == null) {
+            return;
         }
 
-        LatLng point1 = new LatLng(lat, lgn);
-        mMap.clear();
-        mMap.addMarker(new MarkerOptions()
-                .position(point1)
-                .title("Ponto 1")
-                .snippet("UFSC"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point1, 14));
-    }
+        for (int i = 0; i < origens.size(); i++) {
+            if (origens.get(i).equalsIgnoreCase(origemSelecionada)) {
+                // Encontrou a origem selecionada, usar as coordenadas correspondentes
+                double ori_lat = oriLatitudes.get(i);
+                double ori_lon = oriLongitudes.get(i);
 
-    private void updateMapPoint2(String selectedDestination) {
-        // Atualiza o ponto no mapa com base no destino selecionado
-        // Aqui você deve implementar a lógica de atualização com base no destino selecionado
-        // Adicione a lógica específica para os destinos, similar à lógica de updateMapPoint1 se necessário
+                LatLng latLng = new LatLng(ori_lat, ori_lon);
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title("Ponto de Origem")
+                        .snippet(origemSelecionada));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                origemEncontrada = true;
+                break;
+            }
+        }
+
+        if (!origemEncontrada) {
+            // Caso a origem não seja encontrada nas caronas listadas (não deve ocorrer se a API estiver correta)
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainMapaCaroneiro.this, "Origem não encontrada nas caronas disponíveis.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

@@ -20,9 +20,8 @@ import java.util.List;
 public class Caronas extends AppCompatActivity {
 
     private ListView caronaList;
-    private SharedPreferences prefs;
-    private SharedPreferences SaveOrigem;
     private ApiServiceCarona apiService;
+    private SharedPreferences SaveOrigem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,6 @@ public class Caronas extends AppCompatActivity {
         setContentView(R.layout.activity_caronas);
 
         // Inicialização das SharedPreferences
-        prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         SaveOrigem = getSharedPreferences("SaveOrigem", Context.MODE_PRIVATE);
 
         // Inicialização do ApiServiceCarona
@@ -79,16 +77,21 @@ public class Caronas extends AppCompatActivity {
                 Carona selectedCarona = (Carona) parent.getItemAtPosition(position);
                 String origemCarona = selectedCarona.getOrigem();
 
-                // Salvar a origem selecionada nas SharedPreferences
-                SaveOrigem.edit().putString("origemCarona", origemCarona).apply();
+                // Verificar se a origem selecionada não é nula
+                if (origemCarona != null) {
+                    // Salvar a origem selecionada nas SharedPreferences
+                    SaveOrigem.edit().putString("origemCarona", origemCarona).apply();
 
-                // Iniciar a atividade MainMapaCaroneiro passando a origem como extra
-                Intent intent = new Intent(Caronas.this, MainMapaCaroneiro.class);
-                intent.putExtra("origemSelecionada", origemCarona);
-                startActivity(intent);
+                    // Iniciar a atividade MainMapaCaroneiro passando a origem como extra
+                    Intent intent = new Intent(Caronas.this, MainMapaCaroneiro.class);
+                    intent.putExtra("origemSelecionada", origemCarona);
+                    startActivity(intent);
 
-                // Exemplo de log para verificar se a origem foi salva corretamente
-                Log.d("Caronas", "Origem selecionada: " + origemCarona);
+                    // Exemplo de log para verificar se a origem foi salva corretamente
+                    Log.d("Caronas", "Origem selecionada: " + origemCarona);
+                } else {
+                    Toast.makeText(Caronas.this, "Origem selecionada é nula.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -99,6 +102,7 @@ public class Caronas extends AppCompatActivity {
         confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Exemplo de abertura da atividade sem uma origem selecionada
                 Intent intent = new Intent(Caronas.this, MainMapaCaroneiro.class);
                 startActivity(intent);
             }
@@ -107,6 +111,7 @@ public class Caronas extends AppCompatActivity {
         sair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Exemplo de abertura da atividade sem uma origem selecionada
                 Intent intent = new Intent(Caronas.this, MainCaroneiro.class);
                 startActivity(intent);
             }
@@ -115,11 +120,14 @@ public class Caronas extends AppCompatActivity {
 }
 
 
+
 class Carona {
     private String origem;
     private String destino;
     private String placa;
     private String ano;
+
+
 
     public Carona(String origem, String destino, String placa, String ano) {
         this.origem = origem;
