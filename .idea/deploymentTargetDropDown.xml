@@ -8,9 +8,6 @@
       <entry key="MainMapa">
         <State />
       </entry>
-      <entry key="MainMapa (1)">
-        <State />
-      </entry>
       <entry key="MainMapaCaroneiro">
         <State />
       </entry>
@@ -18,6 +15,9 @@
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="teste">
         <State />
       </entry>
     </value>

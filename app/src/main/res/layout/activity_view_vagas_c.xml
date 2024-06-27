@@ -55,6 +55,36 @@
             android:layout_height="40dp"
             android:background="@color/black"
             android:layout_margin="4dp" />
+        <View
+            android:id="@+id/vaga4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/black"
+            android:layout_margin="4dp" />
+        <View
+            android:id="@+id/vaga5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/black"
+            android:layout_margin="4dp" />
+        <View
+            android:id="@+id/vaga6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/black"
+            android:layout_margin="4dp" />
+        <View
+            android:id="@+id/vaga7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/black"
+            android:layout_margin="4dp" />
+        <View
+            android:id="@+id/vaga8"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/black"
+            android:layout_margin="4dp" />
 
         <Button
             android:id="@+id/btn_backB"
