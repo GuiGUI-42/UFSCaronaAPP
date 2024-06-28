@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:background="#b5b5b5"
+    android:layout_height="match_parent">
 
     <!-- Header -->
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -22,144 +23,275 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp" />
 
-
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Button"
+            android:layout_gravity="end"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="130dp"
+            android:layout_marginBottom="5dp"
+            android:text="Sair" />
     </LinearLayout>
 
     <!-- Parking Lot Layout -->
+
+    <!-- Botão de próxima página -->
+
     <GridLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:columnCount="5"
-        android:rowCount="5">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="16dp"
+        android:columnCount="2"
+        android:rowCount="8">
 
         <!-- Parking Spaces -->
         <View
             android:id="@+id/vaga1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
+
+
 
         <View
             android:id="@+id/vaga2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/black" />
 
         <View
             android:id="@+id/vaga3"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
+
         <View
             android:id="@+id/vaga4"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/black" />
+
         <View
             android:id="@+id/vaga5"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
+
         <View
             android:id="@+id/vaga6"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/black" />
 
         <View
             android:id="@+id/vaga7"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
+
         <View
             android:id="@+id/vaga8"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            android:layout_margin="4dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/black" />
 
-        <Button
-            android:id="@+id/btn_nextB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="3"
-            android:layout_column="4"
-            android:layout_gravity="right"
-            android:layout_marginTop="200dp"
+        <View
+            android:id="@+id/vaga9"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
+
+        <View
+            android:id="@+id/vaga10"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/black" />
+
+        <View
+            android:id="@+id/vaga11"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
+
+        <View
+            android:id="@+id/vaga12"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/black" />
+
+        <View
+            android:id="@+id/vaga13"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
+
+        <View
+            android:id="@+id/vaga14"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/black" />
+
+        <View
+            android:id="@+id/vaga15"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:background="@color/black" />
 
 
-            android:background="@drawable/ic_arrow_right"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+        <View
+            android:id="@+id/vaga16"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/black" />
 
-        <!-- Add more parking spaces here -->
+
 
     </GridLayout>
+
+
+
+    <Button
+        android:id="@+id/btn_nextB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_arrow_right"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <!-- Gate -->
     <ImageView
         android:id="@+id/iconportao"
         android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/layout"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/baseline_compare_arrows_24" />
+
+    <ImageView
+        android:id="@+id/portao"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:src="@drawable/baseline_compare_arrows_24"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_below="@id/layout"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/entradaportao" />
 
     <!-- TextView -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/iconportao">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Portão"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
-
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="25dp"
+            android:text="Entrada/Saída" />
     </LinearLayout>
 
     <!-- Footer -->
     <LinearLayout
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/background">
+        android:background="@drawable/background"
+        android:layout_alignParentBottom="true">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/att"
-            android:layout_width="0dp"
+            android:layout_width="10dp"
             android:layout_height="wrap_content"
+            style="@style/Button"
             android:text="Atualizar"
             android:layout_weight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
 
-        <Button
-            android:id="@+id/sair"
-            android:layout_width="0dp"
+            />
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/legenda" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sair"
-            android:layout_weight="1"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
+            android:text="Livre"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/legendaocupada" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ocupado"
+            android:textSize="18sp" />
+
+
 
     </LinearLayout>
 
-    <!-- Botão de próxima página -->
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="133dp"
+        android:layout_height="149dp"
+        android:layout_below="@id/header"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="12dp"
+        app:srcCompat="@drawable/logopng" />
 
-</LinearLayout>
+
+
+
+</RelativeLayout>
