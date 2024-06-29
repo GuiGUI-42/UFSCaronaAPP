@@ -3,6 +3,8 @@ package com.example.ufscarona2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,8 @@ import java.util.List;
 
 public class ViewVagasB extends AppCompatActivity {
     private SharedPreferences prefs;
+    private Handler handler;
+    private Runnable refreshRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,22 @@ public class ViewVagasB extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Inicializa Handler e Runnable para refresh automático
+        handler = new Handler(Looper.getMainLooper());
+        refreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // Chama a API para atualizar os dados
+                fetchVagasData();
+
+                // Agendar o próximo refresh em 30 segundos
+                handler.postDelayed(this, 10000); // 30000 milissegundos = 30 segundos
+            }
+        };
+
+        // Iniciar o refresh pela primeira vez
+        handler.post(refreshRunnable);
     }
 
     // Função para buscar dados das vagas e atualizar a UI
@@ -149,10 +169,17 @@ public class ViewVagasB extends AppCompatActivity {
                 parkingSpaceView.setBackgroundResource(R.color.parking_space_available);
             } else {
                 Log.d("ViewVagasB", "Setando cor desconhecida para vaga " + idVaga);
-                parkingSpaceView.setBackgroundResource(R.color.parking_space_unknown);
+                parkingSpaceView.setBackgroundResource(R.color.parking_space_occupied);
             }
         } else {
-            Log.e("ViewVagasB", "View para vaga ID " + idVaga + " não encontrada.");
+            Log.e("ViewVagasB", "View para vaga ID " + idVaga+" não encontrada.");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Remover callbacks quando a activity for destruída para evitar vazamento de memória
+        handler.removeCallbacks(refreshRunnable);
     }
 }

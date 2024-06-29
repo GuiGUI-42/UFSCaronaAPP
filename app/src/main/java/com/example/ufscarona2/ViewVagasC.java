@@ -140,7 +140,7 @@ public class ViewVagasC extends AppCompatActivity {
                 parkingSpaceView.setBackgroundResource(R.color.parking_space_available);
             } else {
                 Log.d("ViewVagasC", "Setando cor desconhecida para vaga " + idVaga);
-                parkingSpaceView.setBackgroundResource(R.color.parking_space_unknown);
+                parkingSpaceView.setBackgroundResource(R.color.parking_space_occupied);
             }
         } else {
             Log.e("ViewVagasC", "View para vaga ID " + idVaga + " não encontrada.");
